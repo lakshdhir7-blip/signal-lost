@@ -1,0 +1,17 @@
+# Copy to .dev.vars and fill in whichever provider you want to use.
+# wrangler dev loads this automatically.
+#
+# Provider selection order:
+#   1. MODEL_PROVIDER=gemini or anthropic (explicit override)
+#   2. GEMINI_API_KEY if present
+#   3. ANTHROPIC_API_KEY if present
+#   4. offline fallback hints only
+
+# Gemini (recommended — cheap and fast)
+GEMINI_API_KEY=AIzaSy...
+
+# Anthropic Claude (alternative)
+# ANTHROPIC_API_KEY=sk-ant-api03-...
+
+# Force a specific provider if both keys are set (optional)
+# MODEL_PROVIDER=gemini

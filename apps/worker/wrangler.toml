@@ -1,0 +1,35 @@
+name = "signal-lost-worker"
+main = "src/index.ts"
+compatibility_date = "2024-10-22"
+compatibility_flags = ["nodejs_compat"]
+
+# Production
+[vars]
+ENVIRONMENT = "production"
+ALLOWED_ORIGIN = "https://signal-lost.pages.dev"
+HINTS_DISABLED = "false"
+
+# KV namespace for hint rate limiting
+# Create with: wrangler kv:namespace create HINT_LIMITS
+# [[kv_namespaces]]
+# binding = "HINT_LIMITS"
+# id = "REPLACE_WITH_PROD_KV_ID"
+
+# Analytics Engine for hint audit logs
+# [[analytics_engine_datasets]]
+# binding = "HINT_AUDIT"
+
+[env.preview]
+name = "signal-lost-worker-preview"
+vars = { ENVIRONMENT = "preview", ALLOWED_ORIGIN = "*", HINTS_DISABLED = "false" }
+
+# [[env.preview.kv_namespaces]]
+# binding = "HINT_LIMITS"
+# id = "REPLACE_WITH_PREVIEW_KV_ID"
+
+# Secrets (set via: wrangler secret put <NAME>)
+# Provide at least one of:
+#   - GEMINI_API_KEY    (recommended)
+#   - ANTHROPIC_API_KEY
+# Optional:
+#   - MODEL_PROVIDER    ("gemini" or "anthropic" if both keys are set)

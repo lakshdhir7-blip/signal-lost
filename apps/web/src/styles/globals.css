@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #070a1f;
+    color: #e0f7ff;
+    overflow-x: hidden;
+  }
+
+  /* Font size accessibility scaling */
+  html[data-font-size='sm'] {
+    font-size: 14px;
+  }
+  html[data-font-size='md'] {
+    font-size: 16px;
+  }
+  html[data-font-size='lg'] {
+    font-size: 19px;
+  }
+
+  /* Dyslexia-friendly font */
+  html[data-dyslexia-font='true'] body,
+  html[data-dyslexia-font='true'] * {
+    font-family: OpenDyslexic, Inter, system-ui, sans-serif !important;
+  }
+
+  /* High contrast mode — pure black bg, pure white text, yellow accents, white borders */
+  html[data-high-contrast='true'] body,
+  html[data-high-contrast='true'] main {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  /* Backgrounds: flatten all theme blues/purples/greens to black */
+  html[data-high-contrast='true'] [class*='bg-navy'],
+  html[data-high-contrast='true'] [class*='bg-cyan-brand/'],
+  html[data-high-contrast='true'] [class*='bg-magenta-brand/'],
+  html[data-high-contrast='true'] [class*='bg-green-400/'],
+  html[data-high-contrast='true'] [class*='bg-yellow-900'],
+  html[data-high-contrast='true'] [class*='bg-alert-brand/'] {
+    background-color: #000000 !important;
+    background-image: none !important;
+  }
+
+  /* Text: cyan family -> white; magenta/acid/yellow -> pure yellow; alerts -> hot pink */
+  html[data-high-contrast='true'] [class*='text-cyan-brand'] {
+    color: #ffffff !important;
+  }
+  html[data-high-contrast='true'] [class*='text-magenta-brand'],
+  html[data-high-contrast='true'] [class*='text-acid-brand'],
+  html[data-high-contrast='true'] [class*='text-yellow-'] {
+    color: #ffff00 !important;
+  }
+  html[data-high-contrast='true'] [class*='text-green-'] {
+    color: #00ff66 !important;
+  }
+  html[data-high-contrast='true'] [class*='text-alert-brand'] {
+    color: #ff4488 !important;
+  }
+
+  /* Borders: every color border becomes bright white */
+  html[data-high-contrast='true'] [class*='border-cyan-brand'],
+  html[data-high-contrast='true'] [class*='border-magenta-brand'],
+  html[data-high-contrast='true'] [class*='border-acid-brand'],
+  html[data-high-contrast='true'] [class*='border-alert-brand'],
+  html[data-high-contrast='true'] [class*='border-green-'],
+  html[data-high-contrast='true'] [class*='border-yellow-'] {
+    border-color: #ffffff !important;
+  }
+
+  /* Kill the glow shadows (hard to see on black) */
+  html[data-high-contrast='true'] [class*='shadow-'] {
+    box-shadow: none !important;
+  }
+
+  /* Code rain / decorative layers distract; hide them */
+  html[data-high-contrast='true'] .animate-code-rain {
+    display: none !important;
+  }
+
+  /* Make focus rings stand out even more */
+  html[data-high-contrast='true'] :focus-visible {
+    outline: 4px solid #ffff00 !important;
+    outline-offset: 3px !important;
+  }
+
+  /* CodeMirror editor */
+  html[data-high-contrast='true'] .cm-editor {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+  html[data-high-contrast='true'] .cm-content {
+    color: #ffffff !important;
+  }
+  html[data-high-contrast='true'] .cm-gutters {
+    background: #000000 !important;
+    border-right-color: #ffffff !important;
+  }
+
+  /* Fully remove the flyout scrollbar — our blocks fit without it,
+     and the flyout is what leaves the stuck gray bar behind. */
+  .blocklyFlyout .blocklyScrollbarHorizontal,
+  .blocklyFlyout .blocklyScrollbarVertical,
+  .blocklyFlyoutScrollbar,
+  g.blocklyFlyoutScrollbar,
+  .blocklyFlyout [class*='blocklyScrollbar'] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Keep workspace scrollbars invisible but interactive so drag-to-pan works. */
+  .blocklyMainWorkspaceScrollbar,
+  .blocklyMainWorkspaceScrollbar .blocklyScrollbarHandle,
+  .blocklyMainWorkspaceScrollbar .blocklyScrollbarBackground {
+    opacity: 0 !important;
+  }
+
+  /* Give the workspace a grab cursor so users know they can pan */
+  .blocklyMainBackground {
+    cursor: grab;
+  }
+  .blocklyMainBackground:active {
+    cursor: grabbing;
+  }
+
+  /* Make the trashcan a reasonable size so it's useful but not huge */
+  .blocklyTrash {
+    transform: scale(0.75);
+    transform-origin: bottom right;
+  }
+
+  /* Blockly polish — keep workspace bright, make toolbox text readable */
+  .blocklyMainBackground {
+    stroke: none !important;
+  }
+  .blocklyToolboxDiv {
+    border-right: 3px solid #FF2BD6 !important;
+    font-family: Inter, system-ui, sans-serif !important;
+    min-width: 120px !important;
+    padding: 8px 4px !important;
+  }
+  .blocklyTreeLabel {
+    font-family: Inter, system-ui, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+  }
+  .blocklyTreeRow {
+    padding: 10px 14px !important;
+    margin: 4px 4px !important;
+    border-radius: 6px !important;
+    border-left: 4px solid transparent !important;
+  }
+  .blocklyTreeRow:hover {
+    background: rgba(0, 229, 255, 0.15) !important;
+    border-left-color: #00E5FF !important;
+  }
+  .blocklyTreeSelected {
+    background: rgba(255, 43, 214, 0.25) !important;
+    border-left-color: #FF2BD6 !important;
+  }
+  .blocklyTreeSelected .blocklyTreeLabel {
+    color: #ffffff !important;
+  }
+
+  /* CRT scanlines overlay (togglable) */
+  html[data-scanlines='true'] body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0.05) 2px,
+      rgba(0, 0, 0, 0.05) 4px
+    );
+  }
+
+  /* Reduced motion — respect system + app toggle */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  html[data-reduced-motion='true'] *,
+  html[data-reduced-motion='true'] *::before,
+  html[data-reduced-motion='true'] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Focus ring — never remove */
+  :focus-visible {
+    outline: 3px solid #00e5ff;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Make CodeMirror's built-in scrollbar easy to see on the dark theme */
+  .cm-scroller {
+    overflow: auto !important;
+  }
+  .cm-scroller::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  .cm-scroller::-webkit-scrollbar-thumb {
+    background: rgba(0, 229, 255, 0.4);
+    border-radius: 4px;
+  }
+  .cm-scroller::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 229, 255, 0.7);
+  }
+  .cm-scroller::-webkit-scrollbar-track {
+    background: rgba(11, 15, 43, 0.6);
+  }
+
+  .terminal-input {
+    @apply w-full rounded-none border-2 border-cyan-brand bg-navy-deep px-4 py-3 font-mono text-lg text-cyan-brand placeholder:text-cyan-brand/40 focus:outline-none focus:ring-2 focus:ring-magenta-brand;
+  }
+
+  .ranger-button {
+    @apply rounded-none border-2 border-magenta-brand bg-magenta-brand/10 px-6 py-3 font-display text-sm uppercase tracking-wider text-magenta-brand transition-all hover:bg-magenta-brand hover:text-navy-deep disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-magenta-brand/10 disabled:hover:text-magenta-brand;
+  }
+
+  .chromatic-pulse {
+    animation: glitch-text 3s infinite;
+  }
+}
