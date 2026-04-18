@@ -43,3 +43,4 @@ test-results/
 # Cloudflare
 wrangler.toml.local
 .mf/
+.claude/

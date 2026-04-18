@@ -6,14 +6,13 @@ compatibility_flags = ["nodejs_compat"]
 # Production
 [vars]
 ENVIRONMENT = "production"
-ALLOWED_ORIGIN = "https://signal-lost.pages.dev"
+ALLOWED_ORIGIN = "https://signallost.yforse.org,https://signal-lost-7k6.pages.dev"
 HINTS_DISABLED = "false"
 
 # KV namespace for hint rate limiting
-# Create with: wrangler kv:namespace create HINT_LIMITS
-# [[kv_namespaces]]
-# binding = "HINT_LIMITS"
-# id = "REPLACE_WITH_PROD_KV_ID"
+[[kv_namespaces]]
+binding = "HINT_LIMITS"
+id = "8018d21f7a3f422b95134861d13efcb8"
 
 # Analytics Engine for hint audit logs
 # [[analytics_engine_datasets]]

@@ -9,9 +9,13 @@ const app = new Hono<{ Bindings: Env }>();
 app.use('*', logger());
 
 app.use('*', async (c, next) => {
-  const origin = c.env.ALLOWED_ORIGIN;
+  const raw = c.env.ALLOWED_ORIGIN;
+  const origins = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
   const middleware = cors({
-    origin: origin === '*' ? '*' : [origin],
+    origin: origins.includes('*') ? '*' : origins,
     allowMethods: ['POST', 'GET', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
     maxAge: 86400,

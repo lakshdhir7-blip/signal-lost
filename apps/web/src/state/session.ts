@@ -100,7 +100,7 @@ const PuzzlesMapSchema = z.object({
   p5: PuzzleProgressSchema,
 }) satisfies z.ZodType<Record<PuzzleId, PuzzleProgress>>;
 
-const SessionStateSchema: z.ZodType<SessionState> = z.object({
+const SessionStateSchema = z.object({
   sessionId: z.string().uuid(),
   callsign: z.string(),
   startedAt: z.number().nullable(),

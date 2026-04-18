@@ -17,9 +17,13 @@ export interface HintCallOutput extends HintResponse {
   offline: boolean;
 }
 
+// In dev, Vite proxies `/api/*` to the local worker on :8787.
+// In prod, VITE_HINT_API_URL is injected at build time via .env.production.
+const HINT_ENDPOINT = import.meta.env.VITE_HINT_API_URL ?? '/api/hint';
+
 export async function requestHint(input: HintCallInput): Promise<HintCallOutput> {
   try {
-    const res = await fetch('/api/hint', {
+    const res = await fetch(HINT_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(input),

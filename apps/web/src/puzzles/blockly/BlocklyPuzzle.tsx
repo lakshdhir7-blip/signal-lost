@@ -124,7 +124,9 @@ export function BlocklyPuzzle({ draft, onDraftChange, onSubmit }: PuzzleProps) {
 
     // After any toolbox category open/close, sweep the DOM for stale scrollbar
     // handles that Blockly sometimes leaves behind on the workspace overlay.
-    const toolbox = ws.getToolbox();
+    const toolbox = ws.getToolbox() as unknown as
+      | { addActionListener?: (fn: () => void) => void }
+      | null;
     const onToolboxChange = () => {
       window.setTimeout(() => {
         Blockly.svgResize(ws);
