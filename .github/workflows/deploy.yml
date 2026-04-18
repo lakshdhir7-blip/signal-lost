@@ -34,7 +34,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx -y wrangler@4 pages deploy dist --project-name signal-lost-7k6 --branch main --commit-dirty=true
+        run: npx -y wrangler@4 pages deploy dist --project-name signal-lost --branch main --commit-dirty=true
 
   deploy-worker:
     name: Deploy Cloudflare Worker
