@@ -15,11 +15,22 @@ import { useSessionStore } from '@/state/session';
 
 export function HtmlPuzzle({ draft, onDraftChange, onSubmit }: PuzzleProps) {
   const [code, setCode] = useState(draft || BROKEN_ANIMAL_HTML);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const handleChange = (next: string) => {
     setCode(next);
     onDraftChange(next);
   };
+
+  // ESC closes the pop-out preview
+  useEffect(() => {
+    if (!previewOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPreviewOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [previewOpen]);
 
   const report = useMemo(() => checkHtml(code), [code]);
   const fixesLanded = useMemo(
@@ -89,13 +100,23 @@ export function HtmlPuzzle({ draft, onDraftChange, onSubmit }: PuzzleProps) {
       </div>
 
       <div className="flex min-h-0 flex-col pb-20 lg:pr-20">
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mb-2 flex items-center justify-between gap-2">
           <span className="font-mono text-xs text-cyan-brand/70">
             &gt; LIVE PREVIEW // door lock status
           </span>
-          <span className="font-mono text-xs text-magenta-brand">
-            corruption: {Math.round(corruption * 100)}%
-          </span>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setPreviewOpen(true)}
+              className="font-mono text-[10px] uppercase tracking-widest text-cyan-brand/80 hover:text-cyan-brand"
+              aria-label="Open live preview in a larger pop-out window"
+            >
+              [ pop out ↗ ]
+            </button>
+            <span className="font-mono text-xs text-magenta-brand">
+              corruption: {Math.round(corruption * 100)}%
+            </span>
+          </div>
         </div>
         <div className="relative min-h-0 flex-1 overflow-hidden border-2 border-cyan-brand/30 bg-white">
           <iframe
@@ -151,6 +172,53 @@ export function HtmlPuzzle({ draft, onDraftChange, onSubmit }: PuzzleProps) {
           </div>
         ) : null}
       </div>
+
+      {previewOpen ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Live preview, full screen"
+          className="fixed inset-0 z-50 flex flex-col bg-navy-deep/95 p-4 backdrop-blur"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setPreviewOpen(false);
+          }}
+        >
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <span className="font-mono text-sm text-cyan-brand/80">
+              &gt; LIVE PREVIEW // door lock status
+            </span>
+            <div className="flex items-center gap-4">
+              <span className="font-mono text-sm text-magenta-brand">
+                corruption: {Math.round(corruption * 100)}%
+              </span>
+              <button
+                type="button"
+                onClick={() => setPreviewOpen(false)}
+                className="ranger-button"
+                autoFocus
+              >
+                [ close (esc) ]
+              </button>
+            </div>
+          </div>
+          <div className="relative min-h-0 flex-1 overflow-hidden border-2 border-cyan-brand/50 bg-white">
+            <iframe
+              title="html-preview-fullscreen"
+              sandbox="allow-scripts"
+              srcDoc={code}
+              className="h-full w-full border-0"
+            />
+            <div
+              aria-hidden="true"
+              style={{ opacity: corruption }}
+              className="pointer-events-none absolute inset-0 mix-blend-screen transition-opacity duration-300"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-magenta-brand/40 to-alert-brand/30" />
+              <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgba(255,43,214,0.15)_0,rgba(255,43,214,0.15)_1px,transparent_1px,transparent_3px)]" />
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
