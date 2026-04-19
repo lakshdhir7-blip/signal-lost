@@ -1,9 +1,25 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
+import fs from 'node:fs';
+
+// Copy Blockly's media folder (trashcan + zoom icons, SFX) into dist/blockly/
+// so Blockly.inject({ media: '/blockly/' }) resolves in production.
+function copyBlocklyMedia() {
+  return {
+    name: 'copy-blockly-media',
+    apply: 'build' as const,
+    closeBundle() {
+      const src = path.resolve(__dirname, 'node_modules/blockly/media');
+      const dest = path.resolve(__dirname, 'dist/blockly');
+      if (!fs.existsSync(src)) return;
+      fs.cpSync(src, dest, { recursive: true });
+    },
+  };
+}
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), copyBlocklyMedia()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

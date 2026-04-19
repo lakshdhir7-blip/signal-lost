@@ -73,6 +73,7 @@ export function BlocklyPuzzle({ draft, onDraftChange, onSubmit }: PuzzleProps) {
     const ws = Blockly.inject(containerRef.current, {
       toolbox: DRONE_TOOLBOX,
       theme: SIGNAL_LOST_THEME,
+      media: '/blockly/',
       grid: { spacing: 20, length: 3, colour: '#d7e1ea', snap: true },
       trashcan: true,
       // Blockly needs the scrollbar machinery to enable drag-to-pan, even though
